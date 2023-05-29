@@ -188,7 +188,8 @@ def make_performance_plots(
     )
     ax_training.set_xlim(0, network_parameters["num_epochs"])
     ax_training.set_ylim(0.85, 1)
-    ax_histogram.set_xlim(0, 1.2 * overall_max_count)
+    # ax_histogram.set_xlim(0, 1.2 * overall_max_count)
+    ax_histogram.set_xlim(0, 130)
     ax_histogram.set_ylim(0.85, 1)
     for ax in [ax_training, ax_histogram]:
         for tick in ax.xaxis.get_major_ticks():

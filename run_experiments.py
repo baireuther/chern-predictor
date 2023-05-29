@@ -26,6 +26,7 @@ from chern_predictor.data.data_generator_functions import (
     gen_dataset_name_and_experiment_directory,
     print_progress_status,
 )
+from chern_predictor.figures.fig_chern_marker import make_chern_marker_plot
 from chern_predictor.figures.fig_num_states_hist import (
     gen_number_of_states_histogram_data,
     make_number_of_states_histogram,
@@ -69,9 +70,9 @@ if __name__ == "__main__":
     plot_network_figures = True
 
     # # # Configure size of datasets # # #
-    num_training_hamiltonians_per_chern_number = 1250
-    num_validation_hamiltonians_per_chern_number = 125
-    num_test_hamiltonians_per_chern_number = 125
+    num_training_hamiltonians_per_chern_number = 12500
+    num_validation_hamiltonians_per_chern_number = 1250
+    # num_test_hamiltonians_per_chern_number = 1250
 
     # # # Setup directories # # #
     dataset_name, experiment_path = gen_dataset_name_and_experiment_directory(
@@ -115,21 +116,19 @@ if __name__ == "__main__":
         )
 
         # Generate test dataset
-        start_time = now()
-        print("Generating the test dataset:\n")
-        params["dataset"][
-            "num_hams_per_chern_number"
-        ] = num_test_hamiltonians_per_chern_number
-        params["dataset"]["smallest_ham_seed"] = 2 * 10**8
-        test_dataset = gen_dataset(
-            params=params, dataset_path=os.path.join(dataset_directory, "test.json")
-        )
-        print(f"Generating the test dataset took {round(now() - start_time)}s.\n\n")
+        # start_time = now()
+        # print("Generating the test dataset:\n")
+        # params["dataset"]["num_hams_per_chern_number"] = num_test_hamiltonians_per_chern_number
+        # params["dataset"]["smallest_ham_seed"] = 2 * 10**8
+        # test_dataset = gen_dataset(
+        #     params=params, dataset_path=os.path.join(dataset_directory, "test.json")
+        # )
+        # print(f"Generating the test dataset took {round(now() - start_time)}s.\n\n")
 
         # Delete some unused variables to avoid memory overflow
         del training_dataset
         del validation_dataset
-        del test_dataset
+        # del test_dataset
         gc.collect()
 
     for ensemble_name in ["cnn32", "cnn64", "cnn64dl"]:
@@ -163,6 +162,8 @@ if __name__ == "__main__":
                 verbose=True,
             )
             make_number_of_states_plot(figure_path=figure_path)
+            print("Generating figure 6")
+            make_chern_marker_plot(figure_path=figure_path)
             print(f"Generating the figures took {round(now() - start_time, 1)}s.\n")
 
             # Estimate localization length based on LDOS from non-zero Chern number systems
@@ -268,7 +269,9 @@ if __name__ == "__main__":
             print(f"The ensemble seed is {ensemble_seed}.\n")
 
             print("Generating figure 1")
-            gen_setup_fig_data(dataset_path=dataset_directory, figure_path=figure_path)
+            gen_setup_fig_data(
+                dataset_path=dataset_directory, figure_path=figure_path, verbose=True
+            )
             make_setup_fig(figure_path=figure_path)
             print("Generating figure 2")
             gen_performance_plot_data(
