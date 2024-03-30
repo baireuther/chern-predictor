@@ -172,10 +172,8 @@ def make_threshold_figure(
 
     for ax in [ax_accuracy, ax_fraction]:
         ax.set_xlim(0, 1)
-        for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 4)
-        for tick in ax.get_yticklabels():
-            tick.set_fontsize(fontsize - 4)
+        ax.xaxis.set_tick_params(labelsize=fontsize - 4)
+        ax.yaxis.set_tick_params(labelsize=fontsize - 4)
         ax.set_xlabel("threshold", fontsize=fontsize)
 
     ax_accuracy.hlines([0.95, 0.98, 0.99], 0, 1, linestyle="--", color="gray")

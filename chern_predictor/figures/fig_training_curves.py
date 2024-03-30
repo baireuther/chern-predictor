@@ -89,10 +89,8 @@ def make_training_curve_fig(figure_path: str):
         )
         ax.set_xlim(0, network_parameters["num_epochs"])
         ax.set_ylim(0.85, 1)
-        for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 4)
-        for tick in ax.yaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 4)
+        ax.xaxis.set_tick_params(labelsize=fontsize - 4)
+        ax.yaxis.set_tick_params(labelsize=fontsize - 4)
     axes[0].set_xlabel("training epoch", fontsize=fontsize)
     axes[0].set_ylabel("prediction accuracy", fontsize=fontsize)
     axes[0].vlines(

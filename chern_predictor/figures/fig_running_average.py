@@ -189,10 +189,8 @@ def make_running_average_fig(figure_path: str, verbose: bool = False):
         ax.set_xlim(0, 1.2 * overall_max_count)
         ax.set_ylim(ymin, ymax)
     for ax in axes[[0, 1]]:
-        for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(24)
-        for tick in ax.yaxis.get_major_ticks():
-            tick.label.set_fontsize(24)
+        ax.xaxis.set_tick_params(labelsize=24)
+        ax.yaxis.set_tick_params(labelsize=24)
 
     for ax in axes[[1]]:
         ax.set_yticks([])

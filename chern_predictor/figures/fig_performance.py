@@ -191,10 +191,8 @@ def make_performance_plots(
     ax_histogram.set_xlim(0, 1.2 * overall_max_count)
     ax_histogram.set_ylim(0.85, 1)
     for ax in [ax_training, ax_histogram]:
-        for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 4)
-        for tick in ax.yaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 4)
+        ax.xaxis.set_tick_params(labelsize=fontsize - 4)
+        ax.yaxis.set_tick_params(labelsize=fontsize - 4)
 
     ax_training.set_ylabel("prediction accuracy", fontsize=fontsize)
     ax_training.set_xlabel("training epoch", fontsize=fontsize)

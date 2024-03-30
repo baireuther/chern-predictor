@@ -85,16 +85,14 @@ def make_setup_fig(figure_path: str):
         ax = plt.Subplot(fig, gs[chern_number])
         dat = figure_data["c"][f"c{chern_number}_data"]
         dat = dat[::-1]  # Transpose x-axis to match site ordering in Hamiltonian
-        ax.imshow(dat, cmap="Blues", extent=[1, 24, 1, 24])
+        ax.imshow(dat, cmap="Blues", extent=[0.5, 24.5, 0.5, 24.5])
         ax.set_xlabel(r"$x$", fontsize=fontsize)
         ax.set_ylabel(r"$y$", fontsize=fontsize)
         ax.text(x=3.0, y=19.0, s=rf"$|C|={chern_number}$", fontsize=fontsize - 4)
         ax.set_xticks([1, 9, 16, 24])
         ax.set_yticks([1, 9, 16, 24])
-        for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 8)
-        for tick in ax.yaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 8)
+        ax.xaxis.set_tick_params(labelsize=fontsize - 8)
+        ax.yaxis.set_tick_params(labelsize=fontsize - 8)
         fig.add_subplot(ax)
 
     axes[1].axis("off")
