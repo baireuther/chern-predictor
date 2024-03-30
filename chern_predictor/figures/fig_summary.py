@@ -66,7 +66,7 @@ def make_summary_fig(
     axes[3].text(-0.22, 1, r"b)", fontsize=fontsize)
     axes[5].text(-1.2, 3.5, r"c)", fontsize=fontsize)
 
-    for ftype in ["png", "pdf", "svg"]:
+    for ftype in ["png", "svg"]:
         fig.savefig(
             os.path.join(figure_path, "summary." + ftype),
             facecolor="white",

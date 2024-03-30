@@ -190,10 +190,9 @@ def make_running_average_fig(figure_path: str, verbose: bool = False):
         ax.set_xlim(0, 130)
         ax.set_ylim(ymin, ymax)
     for ax in axes[[0, 1]]:
-        for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(24)
-        for tick in ax.yaxis.get_major_ticks():
-            tick.label.set_fontsize(24)
+        ax.xaxis.set_tick_params(labelsize=24)
+        ax.yaxis.set_tick_params(labelsize=24)
+    axes[0].locator_params(axis="x", nbins=6)
 
     for ax in axes[[1]]:
         ax.set_yticks([])
@@ -225,7 +224,7 @@ def make_running_average_fig(figure_path: str, verbose: bool = False):
 
     fig.subplots_adjust(wspace=0)
 
-    for ftype in ["png", "pdf", "svg"]:
+    for ftype in ["png", "svg"]:
         fig.savefig(
             os.path.join(figure_path, "running_average." + ftype),
             facecolor="white",

@@ -68,11 +68,10 @@ def make_chern_marker_plot(figure_path: str):
     for ax in [ax1, ax2]:
         ax.set_ylabel(r"Chern marker $|C_m|$", fontsize=20)
         ax.set_ylim(0, 3)
-        for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(20)
-        for tick in ax.yaxis.get_major_ticks():
-            tick.label.set_fontsize(20)
-        ax.locator_params(axis="y", nbins=5)
+        ax.xaxis.set_tick_params(labelsize=20)
+        ax.yaxis.set_tick_params(labelsize=20)
+        ax.locator_params(axis="x", nbins=7)
+        ax.locator_params(axis="y", nbins=4)
 
     ax1.set_xlabel(r"system size $N_x=N_y$", fontsize=20)
     ax1.set_xlim(10, 40)
@@ -84,7 +83,7 @@ def make_chern_marker_plot(figure_path: str):
 
     fig.subplots_adjust(wspace=0.25)
 
-    for ftype in ["png", "pdf", "svg"]:
+    for ftype in ["png", "svg"]:
         fig.savefig(
             os.path.join(figure_path, "chern_marker." + ftype),
             facecolor="white",

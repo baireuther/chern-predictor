@@ -62,7 +62,9 @@ def gen_number_of_states_histogram_data(
 
 
 def make_number_of_states_histogram(figure_path: str):
-
+    """The model used to generate the data has particle-hole symmetry. Therefore, in
+    previous versions of the code, only half the states in a symmetric energy window
+    around zero were considered."""
     with open(
         os.path.join(figure_path, "fig_num_states_in_ldos_data.json"), "r"
     ) as file:
@@ -76,7 +78,8 @@ def make_number_of_states_histogram(figure_path: str):
 
     for chern_number in [0, 1, 2, 3]:
         ax = axes[chern_number]
-        for dataset_name, color, alpha in zip(
+        for label, dataset_name, color, alpha in zip(
+            ["Training", "Shiba"],
             ["Training", "Test"],
             ["tab:blue", "tab:red"],
             [0.55, 0.6],
@@ -85,14 +88,14 @@ def make_number_of_states_histogram(figure_path: str):
                 figure_data[f"chern_number_{chern_number}"][dataset_name]["n_evals"]
             )
             counts, bins, _ = ax.hist(
-                n_evals / 2,
-                bins=np.arange(-0.5, 39.5, 1.0),
-                weights=np.ones(len(n_evals / 2)) / len(n_evals),
+                n_evals,
+                bins=np.arange(-1.0, 79.0, 2.0),
+                weights=np.ones(len(n_evals)) / len(n_evals),
                 alpha=alpha,
                 color=color,
-                label=f"{dataset_name}: {round(np.mean(n_evals) / 2, 1)}",
+                label=f"{label}: {round(np.mean(n_evals), 1)}",
             )
-        ax.set_xlim(-0.5, 29.5)
+        ax.set_xlim(-1.0, 59.0)
         ax.locator_params(axis="x", nbins=3)
         legend = ax.legend(
             ncol=1,
@@ -105,23 +108,21 @@ def make_number_of_states_histogram(figure_path: str):
         legend._legend_box.align = "left"
 
     axes[0].set_ylim(0, 0.3)
+    axes[2].set_ylim(0, 0.3)
     axes[0].set_ylabel("count", fontsize=20)
     axes[2].set_ylabel("count", fontsize=20)
     axes[2].set_xlabel("number of states", fontsize=20)
     axes[3].set_xlabel("number of states", fontsize=20)
-    axes[0].locator_params(axis="y", nbins=5)
     for ax in axes:
-        for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(20)
-        for tick in ax.yaxis.get_major_ticks():
-            tick.label.set_fontsize(20)
+        ax.xaxis.set_tick_params(labelsize=20)
+        ax.yaxis.set_tick_params(labelsize=20)
     for ax in axes[[1, 2, 3]]:
         ax.set_yticks([])
-    axes[0].text(-2.2, 0.22, r"$||$", fontsize=32, rotation=45)
+    axes[0].text(-3.9, 0.22, r"$||$", fontsize=32, rotation=45)
 
     fig.subplots_adjust(wspace=0.05, hspace=0.05)
 
-    for ftype in ["png", "pdf", "svg"]:
+    for ftype in ["png", "svg"]:
         fig.savefig(
             os.path.join(figure_path, "num_states_in_ldos." + ftype),
             facecolor="white",

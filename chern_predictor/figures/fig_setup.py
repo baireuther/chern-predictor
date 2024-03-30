@@ -139,10 +139,10 @@ def make_setup_fig(figure_path: str):
     cbar.set_label(r"Chern number $|C|$", fontsize=fontsize, labelpad=0)
 
     for ax in axes[[ax_index]]:
-        for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 4)
-        for tick in ax.yaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 4)
+        ax.xaxis.set_tick_params(labelsize=fontsize - 4)
+        ax.yaxis.set_tick_params(labelsize=fontsize - 4)
+    axes[ax_index].locator_params(axis="x", nbins=8)
+    axes[ax_index].locator_params(axis="y", nbins=9)
 
     fig.canvas.draw()
     yticks_loc = cbar.ax.get_yticks().tolist()
@@ -159,16 +159,14 @@ def make_setup_fig(figure_path: str):
         ax = plt.Subplot(fig, gs[chern_number])
         dat = figure_data["c"][f"c{chern_number}_data"]
         dat = dat[::-1]  # Transpose x-axis to match site ordering in Hamiltonian
-        ax.imshow(dat, cmap="Blues", extent=[1, 24, 1, 24])
+        ax.imshow(dat, cmap="Blues", extent=[0.5, 24.5, 0.5, 24.5])
         ax.set_xlabel(r"$x$", fontsize=fontsize)
         ax.set_ylabel(r"$y$", fontsize=fontsize)
         ax.text(x=3.0, y=19.0, s=rf"$|C|={chern_number}$", fontsize=fontsize - 4)
         ax.set_xticks([1, 9, 16, 24])
         ax.set_yticks([1, 9, 16, 24])
-        for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 8)
-        for tick in ax.yaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 8)
+        ax.xaxis.set_tick_params(labelsize=fontsize - 8)
+        ax.yaxis.set_tick_params(labelsize=fontsize - 8)
         fig.add_subplot(ax)
 
     axes[1].axis("off")
@@ -180,7 +178,7 @@ def make_setup_fig(figure_path: str):
     axes[4].text(-0.05, 0.95, r"c)", fontsize=fontsize)
 
     fig.subplots_adjust(wspace=0.1)
-    for ftype in ["png", "pdf", "svg"]:
+    for ftype in ["png", "svg"]:
         fig.savefig(
             os.path.join(figure_path, "setup." + ftype),
             facecolor="white",

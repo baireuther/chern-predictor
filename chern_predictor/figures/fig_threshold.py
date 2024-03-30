@@ -172,11 +172,10 @@ def make_threshold_figure(
 
     for ax in [ax_accuracy, ax_fraction]:
         ax.set_xlim(0, 1)
-        for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 4)
-        for tick in ax.get_yticklabels():
-            tick.set_fontsize(fontsize - 4)
+        ax.xaxis.set_tick_params(labelsize=fontsize - 4)
+        ax.yaxis.set_tick_params(labelsize=fontsize - 4)
         ax.set_xlabel("threshold", fontsize=fontsize)
+        ax.locator_params(axis="x", nbins=6)
 
     ax_accuracy.hlines([0.95, 0.98, 0.99], 0, 1, linestyle="--", color="gray")
     ax_fraction.hlines(
@@ -210,7 +209,7 @@ def make_certainty_threshold_fig(
     axes[1].text(-0.12, 0.983, r"b)", fontsize=fontsize)
 
     fig.subplots_adjust(wspace=0.3)
-    for ftype in ["png", "pdf", "svg"]:
+    for ftype in ["png", "svg"]:
         fig.savefig(
             os.path.join(figure_path, "certainty_threshold." + ftype),
             facecolor="white",

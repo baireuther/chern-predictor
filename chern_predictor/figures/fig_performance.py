@@ -192,10 +192,9 @@ def make_performance_plots(
     ax_histogram.set_xlim(0, 130)
     ax_histogram.set_ylim(0.85, 1)
     for ax in [ax_training, ax_histogram]:
-        for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 4)
-        for tick in ax.yaxis.get_major_ticks():
-            tick.label.set_fontsize(fontsize - 4)
+        ax.xaxis.set_tick_params(labelsize=fontsize - 4)
+        ax.yaxis.set_tick_params(labelsize=fontsize - 4)
+    ax_training.locator_params(axis="x", nbins=6)
 
     ax_training.set_ylabel("prediction accuracy", fontsize=fontsize)
     ax_training.set_xlabel("training epoch", fontsize=fontsize)
@@ -296,7 +295,7 @@ def make_performance_fig(
 
     fig.subplots_adjust(wspace=0)
 
-    for ftype in ["png", "pdf", "svg"]:
+    for ftype in ["png", "svg"]:
         fig.savefig(
             os.path.join(figure_path, "performance." + ftype),
             facecolor="white",

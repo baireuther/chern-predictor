@@ -50,7 +50,7 @@ python3 run_experiments.py
 The results will be stored in the `experiments` directory.
 
 ## How to reproduce the research results in reference [1]
-1) As a prerequisite, you need to obtain the Shiba lattice model data which was used as test dataset in reference [[1]](#reference) and which is not part of this repository. It can be found at https://doi.org/10.5281/zenodo.7904700.
+1) As a prerequisite, you need to obtain the Shiba lattice model data which was used as test dataset in reference [[1]](#reference) and which is not part of this repository. It can be found at https://doi.org/10.5281/zenodo.7904700. Note that the LDOS maps in this dataset are not yet normalized to have unit standard deviation across each sample. This is taken care of during the preprocessing of the data by the function `preprocess_dataset` with `normalize=True`.
 
 2) Perform step 1) in [Installation and Execution](#installation-and-execution).
 
@@ -70,21 +70,24 @@ The results will be stored in the `experiments` directory.
 
 10) Perform step 3) in [Installation and Execution](#installation-and-execution).
 
-The dependency versions that were used in the computer experiments are:
+Below is a list of the dependency versions that were used in the computer experiments.
+
+WARNING: These versions of the dependencies are outdated and some contain security vulnerabilities.
 
 matplotlib==3.6.2</br>
 numpy==1.23.4</br>
 scipy==1.8.1</br>
-tensorflow-cpu==2.9.2 (has security vulnerabilities, better don't use this version)
+tensorflow-cpu==2.9.2
 
 ## How to configure the computer experiments
 Most relevant parameters are defined in `default_parameters.py`. An explanation of the parameters is given in the [Dataset format](#dataset-format) section.
 
 ## Reference
-[1] P. Baireuther, M. Płodzień, T. Ojanen, J. Tworzydło, T. Hyart, "Identifying Chern numbers of superconductors from local measurements", https://arxiv.org/abs/2112.06777.
+[1] P. Baireuther, M. Płodzień, T. Ojanen, J. Tworzydło, T. Hyart, "Identifying Chern numbers of superconductors from local measurements", SciPost Phys. Core **6**, 087 (2023), https://doi.org/10.21468/SciPostPhysCore.6.4.087.
 
 ## Dataset format
-The datasets are stored as a list of datapoints in json format. Each datapoint is a dictionary.
+The datasets are stored as a list of datapoints in json format. Each datapoint is a dictionary. Note that the LDOS maps in these datasets are not necessarily normalized to have unit standard deviation across each sample. They can, for example, be the mean or the sum of the contributions from all considered states. The normalization is taken care of during the preprocessing of the data by the function `preprocess_dataset` with `normalize=True`.
+
 ### Complete set of entries
 <ul>
 <li> bulk_ham_params: (dictionary)</li>

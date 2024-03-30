@@ -28,6 +28,9 @@ from chern_predictor.networks.helper_functions import load_data
 def gen_number_of_states_plot_data(
     dataset_directory: str, figure_path: str, verbose: bool = False
 ):
+    """The model used to generate the data has particle-hole symmetry. Therefore, in
+    previous versions of the code, only half the states in a symmetric energy window
+    around zero were considered."""
     figure_data = {}
 
     data_train, _, data_test = load_data(
@@ -51,8 +54,8 @@ def gen_number_of_states_plot_data(
             u0s = sorted(list(set(u0_factors)))
             for u0 in u0s:
                 ns = n_evals[u0_factors == u0]
-                n_avg.append(np.mean(ns) / 2.0)
-                n_std.append(np.std(ns) / 2.0)
+                n_avg.append(np.mean(ns))
+                n_std.append(np.std(ns))
 
             figure_data[f"chern_number_{chern_number}"][dataset_name] = {}
             figure_data[f"chern_number_{chern_number}"][dataset_name]["u0s"] = u0s
@@ -107,25 +110,25 @@ def make_number_of_states_plot(figure_path: str):
                 color=colors[chern_number],
             )
 
-    ymax = 20
+    ymax = 40
     for ax in [ax1, ax2]:
         ax.legend(loc="upper left", fontsize=14, ncol=1)
-        ax.set_ylabel("Number of states in LDOS", fontsize=20)
+        ax.set_ylabel("number of states", fontsize=20)
         ax.set_ylim(0, ymax)
-        ax.set_xlabel(r"$V_0/\bar \Delta$", fontsize=20)
         ax.set_xlim(0, 1)
-        for tick in ax.xaxis.get_major_ticks():
-            tick.label.set_fontsize(20)
-        for tick in ax.yaxis.get_major_ticks():
-            tick.label.set_fontsize(20)
+        ax.xaxis.set_tick_params(labelsize=20)
+        ax.yaxis.set_tick_params(labelsize=20)
+        ax.locator_params(axis="x", nbins=6)
         ax.locator_params(axis="y", nbins=5)
 
-    ax1.text(-0.19, 19.2, "a)", fontsize=24)
-    ax2.text(-0.19, 19.2, "b)", fontsize=24)
+    ax1.set_xlabel(r"$V_0/\bar \Delta_{\rm{training}}$", fontsize=20)
+    ax2.set_xlabel(r"$V_0/\bar \Delta_{\rm{shiba}}$", fontsize=20)
+    ax1.text(-0.19, 38.4, "a)", fontsize=24)
+    ax2.text(-0.19, 38.4, "b)", fontsize=24)
 
     fig.subplots_adjust(wspace=0.3)
 
-    for ftype in ["png", "pdf", "svg"]:
+    for ftype in ["png", "svg"]:
         fig.savefig(
             os.path.join(figure_path, "num_states_disorder." + ftype),
             facecolor="white",
